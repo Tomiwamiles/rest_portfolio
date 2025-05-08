@@ -72,6 +72,40 @@ input, select, textarea {
 	appearance: none;
 }
 
+.logo {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	border: 2px solid white;
+	border-radius: 50%;
+	width: 80px;
+	height: 80px;
+	margin: 0 auto;
+  }
+  
+  .initials {
+	font-size: 24px;
+	font-weight: bold;
+	color: white;
+	font-family: 'Poppins', sans-serif;
+	text-shadow: 0 0 8px rgba(255, 255, 255, 0.3);
+  }
+  
+
+  .offer-btn {
+	background-color: #007bff;
+	color: #fff;
+	padding: 12px 24px;
+	text-decoration: none;
+	border-radius: 5px;
+	font-weight: bold;
+	transition: background-color 0.3s ease;
+  }
+  
+  .offer-btn:hover {
+	background-color: #0056b3;
+  }
+  
 
 
 /* Basic */
