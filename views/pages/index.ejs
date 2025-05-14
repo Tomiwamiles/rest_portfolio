@@ -1,0 +1,279 @@
+<!-- Hero Section -->
+<section class="hero">
+  <div class="container">
+    <div class="hero-content">
+      <h1 class="hero-title">Find the Perfect Artisan for Your Needs</h1>
+      <p class="hero-text">Connect with skilled artisans and service providers in your area</p>
+      
+      <!-- Search Form -->
+      <div class="search-container">
+        <form action="/search" method="GET" class="search-form">
+          <div class="search-group">
+            <div class="search-input-group">
+              <i class="fas fa-th-list"></i>
+              <select name="category" class="search-select">
+                <option value="">All Categories</option>
+                <% if (categories && categories.length) { %>
+                  <% categories.forEach(category => { %>
+                    <option value="<%= category._id %>" <%= locals.selectedCategory === category._id.toString() ? 'selected' : '' %>><%= category.name %></option>
+                  <% }) %>
+                <% } %>
+              </select>
+            </div>
+            
+            <div class="search-input-group">
+              <i class="fas fa-map-marker-alt"></i>
+              <input type="text" name="location" placeholder="Location" class="search-input" value="<%= locals.selectedLocation || '' %>">
+            </div>
+            
+            <button type="submit" class="btn btn-primary search-btn">
+              <i class="fas fa-search"></i> Find Artisans
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+  <div class="hero-shape">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320">
+      <path fill="#ffffff" fill-opacity="1" d="M0,64L48,80C96,96,192,128,288,138.7C384,149,480,139,576,149.3C672,160,768,192,864,197.3C960,203,1056,181,1152,181.3C1248,181,1344,203,1392,213.3L1440,224L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"></path>
+    </svg>
+  </div>
+</section>
+
+<!-- Categories Section -->
+<section class="categories-section section">
+  <div class="container">
+    <div class="section-header">
+      <h2 class="section-title">Browse by Category</h2>
+      <p class="section-description">Find artisans specializing in different categories</p>
+    </div>
+    
+    <div class="categories-grid">
+      <% if (categories && categories.length) { %>
+        <% categories.forEach(category => { %>
+          <a href="/customers/browse/category/<%= category._id %>" class="category-card">
+            <div class="category-icon">
+              <% if (category.icon) { %>
+                <i class="<%= category.icon %>"></i>
+              <% } else { %>
+                <i class="fas fa-tools"></i>
+              <% } %>
+            </div>
+            <h3 class="category-name"><%= category.name %></h3>
+            <% if (category.description) { %>
+              <p class="category-description"><%= category.description.substring(0, 60) %><%= category.description.length > 60 ? '...' : '' %></p>
+            <% } %>
+          </a>
+        <% }) %>
+      <% } else { %>
+        <div class="empty-state">
+          <p>No categories found. Check back later!</p>
+        </div>
+      <% } %>
+    </div>
+    
+    <div class="section-footer">
+      <a href="/customers/categories" class="btn btn-outline">View All Categories</a>
+    </div>
+  </div>
+</section>
+
+<!-- Featured Artisans Section -->
+<section class="featured-section section section-alt">
+  <div class="container">
+    <div class="section-header">
+      <h2 class="section-title">Featured Artisans</h2>
+      <p class="section-description">Discover our top-rated service providers</p>
+    </div>
+    
+    <div class="artisans-grid">
+      <% if (featuredArtisans && featuredArtisans.length) { %>
+        <% featuredArtisans.forEach(artisan => { %>
+          <div class="artisan-card">
+            <div class="artisan-header">
+              <div class="artisan-image">
+                <img 
+                  src="<%= artisan.profileImage ? `/uploads/${artisan.profileImage}` : '/images/default.jpg' %>" 
+                  alt="<%= artisan.name %>" 
+                  onerror="this.onerror=null; this.src='/images/default.jpg';"
+                  loading="lazy">
+              </div>
+              <% if (artisan.isVerified) { %>
+                <div class="artisan-badge verified">
+                  <i class="fas fa-check-circle"></i>
+                </div>
+              <% } %>
+            </div>
+            <div class="artisan-body">
+              <h3 class="artisan-name"><%= artisan.name %></h3>
+              <% if (artisan.businessName) { %>
+                <p class="artisan-business"><%= artisan.businessName %></p>
+              <% } %>
+              <div class="artisan-category">
+                <i class="fas fa-th-list"></i>
+                <span><%= artisan.category ? artisan.category.name : 'Uncategorized' %></span>
+              </div>
+              <div class="artisan-location">
+                <i class="fas fa-map-marker-alt"></i>
+                <span><%= artisan.city %>, <%= artisan.state %></span>
+              </div>
+              <% if (artisan.rating) { %>
+                <div class="artisan-rating">
+                  <% for (let i = 1; i <= 5; i++) { %>
+                    <i class="fas fa-star <%= i <= artisan.rating ? 'filled' : '' %>"></i>
+                  <% } %>
+                </div>
+              <% } %>
+              <p class="artisan-description"><%= artisan.description %></p>
+            </div>
+            <div class="artisan-footer">
+              <a href="/artisans/<%= artisan.slug %>" class="btn btn-secondary">View Profile</a>
+            </div>
+          </div>
+        <% }) %>
+      <% } else { %>
+        <div class="empty-state">
+          <p>No featured artisans found. Check back later!</p>
+        </div>
+      <% } %>
+    </div>
+    
+    <div class="section-footer">
+      <a href="/artisans" class="btn btn-outline">View All Artisans</a>
+    </div>
+  </div>
+</section>
+
+<!-- How It Works Section -->
+<section class="how-section section">
+  <div class="container">
+    <div class="section-header">
+      <h2 class="section-title">How It Works</h2>
+      <p class="section-description">Find the perfect artisan in 3 simple steps</p>
+    </div>
+    
+    <div class="steps-container">
+      <div class="step-card">
+        <div class="step-number">1</div>
+        <div class="step-icon">
+          <i class="fas fa-search"></i>
+        </div>
+        <h3 class="step-title">Search</h3>
+        <p class="step-description">Search for artisans by category, service, or location</p>
+      </div>
+      
+      <div class="step-card">
+        <div class="step-number">2</div>
+        <div class="step-icon">
+          <i class="fas fa-user-check"></i>
+        </div>
+        <h3 class="step-title">Choose</h3>
+        <p class="step-description">Browse profiles, compare ratings, and select the best match</p>
+      </div>
+      
+      <div class="step-card">
+        <div class="step-number">3</div>
+        <div class="step-icon">
+          <i class="fas fa-phone-alt"></i>
+        </div>
+        <h3 class="step-title">Connect</h3>
+        <p class="step-description">Contact the artisan directly and get your job done</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Call to Action Section -->
+<section class="cta-section section section-alt">
+  <div class="container">
+    <div class="cta-container">
+      <div class="cta-content">
+        <h2 class="cta-title">Are You an Artisan?</h2>
+        <p class="cta-description">Join our platform and reach more customers. Register your business today!</p>
+      </div>
+      <div class="cta-action">
+        <% if (locals.user) { %>
+          <a href="/artisans/register" class="btn btn-primary btn-lg">Register as Artisan</a>
+        <% } else { %>
+          <a href="/login" class="btn btn-primary btn-lg" title="You need to login first">Register as Artisan</a>
+          <p class="cta-login-note">Login required to register as an artisan</p>
+        <% } %>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  /* ... existing styles ... */
+  
+  .cta-login-note {
+    font-size: 0.85rem;
+    margin-top: 0.5rem;
+    color: #fff;
+    opacity: 0.8;
+  }
+
+  .category-icon {
+    width: 80px;
+    height: 80px;
+    margin: 0 auto 1.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #f0f4ff;
+    border-radius: 50%;
+    color: #4a6cf7;
+    transition: all 0.3s ease;
+  }
+
+  .category-icon i {
+    font-size: 2.5rem;
+  }
+
+  .category-card:hover .category-icon {
+    background-color: #4a6cf7;
+    color: white;
+    transform: scale(1.1);
+  }
+
+  .category-card {
+    text-decoration: none;
+    color: inherit;
+    padding: 2rem 1.5rem;
+    border-radius: 12px;
+    background: white;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  .category-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 16px rgba(74,108,247,0.2);
+  }
+
+  .category-name {
+    margin: 0 0 1rem;
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: #2d3748;
+  }
+
+  .category-description {
+    margin: 0;
+    font-size: 0.95rem;
+    color: #718096;
+    line-height: 1.5;
+  }
+
+  .categories-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 2rem;
+    margin: 2rem 0;
+  }
+</style> 

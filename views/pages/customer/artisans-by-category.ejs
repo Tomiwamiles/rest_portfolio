@@ -1,0 +1,65 @@
+<%- contentFor('title') %><%= category.name %> Artisans
+
+<div class="container my-5">
+  <div class="row">
+    <div class="col-12">
+      <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="/">Home</a></li>
+          <li class="breadcrumb-item"><a href="/customers/categories">Categories</a></li>
+          <li class="breadcrumb-item active" aria-current="page"><%= category.name %> Artisans</li>
+        </ol>
+      </nav>
+      
+      <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1><%= category.name %> Artisans</h1>
+        <a href="/customers/categories" class="btn btn-outline-primary">
+          <i class="fas fa-arrow-left me-2"></i>Back to Categories
+        </a>
+      </div>
+      
+      <% if (typeof artisans !== 'undefined' && artisans.length > 0) { %>
+        <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+          <% artisans.forEach(artisan => { %>
+            <div class="col">
+              <div class="card h-100 shadow-sm hover-card">
+                <div class="position-relative">
+                  <img 
+                    src="<%= artisan.profileImage && artisan.profileImage.trim() ? `/uploads/${artisan.profileImage}` : '/images/default.jpg' %>" 
+                    class="card-img-top" 
+                    alt="<%= artisan.businessName %>" 
+                    style="height: 200px; object-fit: cover;"
+                    onerror="this.onerror=null; console.error('Failed to load image:', this.src); this.src='/images/default.jpg';">
+                </div>
+                <div class="card-body">
+                  <h5 class="card-title"><%= artisan.businessName %></h5>
+                  <p class="card-text text-truncate"><%= artisan.description %></p>
+                  <div class="d-flex justify-content-between align-items-center">
+                    <a href="/artisans/<%= artisan.slug %>" class="btn btn-sm btn-outline-primary">View Profile</a>
+                    <small class="text-muted"><i class="fas fa-map-marker-alt me-1"></i><%= artisan.location %></small>
+                  </div>
+                </div>
+                <div class="card-footer bg-white border-top-0">
+                  <div class="d-flex justify-content-between">
+                    <small class="text-muted">
+                      <i class="fas fa-star text-warning me-1"></i>
+                      <%= artisan.ratings && artisan.ratings.average ? artisan.ratings.average.toFixed(1) : 'No ratings' %>
+                    </small>
+                    <small class="text-muted">
+                      <i class="fas fa-phone-alt me-1"></i>
+                      <%= artisan.phone || 'Contact via profile' %>
+                    </small>
+                  </div>
+                </div>
+              </div>
+            </div>
+          <% }); %>
+        </div>
+      <% } else { %>
+        <div class="alert alert-info">
+          <p class="mb-0">No artisans found in this category. Check back later!</p>
+        </div>
+      <% } %>
+    </div>
+  </div>
+</div> 
