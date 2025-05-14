@@ -1,0 +1,32 @@
+<!-- Page Title: Categories -->
+
+<div class="container my-5">
+  <div class="row">
+    <div class="col-12">
+      <h1 class="mb-4">Browse Categories</h1>
+      
+      <% if (typeof categories !== 'undefined' && categories.length > 0) { %>
+        <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+          <% categories.forEach(category => { %>
+            <div class="col">
+              <div class="card h-100 shadow-sm hover-card">
+                <div class="card-body text-center">
+                  <div class="category-icon mb-3">
+                    <i class="<%= category.icon || 'fas fa-tools' %> fa-3x text-primary"></i>
+                  </div>
+                  <h3 class="card-title"><%= category.name %></h3>
+                  <p class="card-text"><%= category.description %></p>
+                  <a href="/customers/categories/<%= category._id %>" class="btn btn-outline-primary">Browse Artisans</a>
+                </div>
+              </div>
+            </div>
+          <% }); %>
+        </div>
+      <% } else { %>
+        <div class="alert alert-info">
+          <p class="mb-0">No categories found. Check back later!</p>
+        </div>
+      <% } %>
+    </div>
+  </div>
+</div> 

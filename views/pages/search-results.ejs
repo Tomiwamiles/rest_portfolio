@@ -1,0 +1,113 @@
+<%- contentFor('body') %>
+<div class="container my-5">
+  <!-- Search Form -->
+  <div class="search-container mb-4">
+    <form action="/search" method="GET" class="search-form">
+      <div class="search-group">
+        <div class="search-input-group">
+          <i class="fas fa-th-list"></i>
+          <select name="category" class="search-select">
+            <option value="">All Categories</option>
+            <% if (categories && categories.length) { %>
+              <% categories.forEach(category => { %>
+                <option value="<%= category._id %>" <%= selectedCategory === category._id.toString() ? 'selected' : '' %>><%= category.name %></option>
+              <% }) %>
+            <% } %>
+          </select>
+        </div>
+        
+        <div class="search-input-group">
+          <i class="fas fa-map-marker-alt"></i>
+          <input type="text" name="location" placeholder="Location" class="search-input" value="<%= selectedLocation %>">
+        </div>
+        
+        <button type="submit" class="btn btn-primary search-btn">
+          <i class="fas fa-search"></i> Find Artisans
+        </button>
+      </div>
+    </form>
+  </div>
+
+  <!-- Search Results -->
+  <div class="search-results">
+    <h2 class="mb-4">Search Results</h2>
+    
+    <% if (selectedCategory || selectedLocation) { %>
+      <div class="search-summary mb-4">
+        <p>
+          <% if (artisans.length === 0) { %>
+            No results found
+          <% } else { %>
+            Found <%= artisans.length %> result<%= artisans.length === 1 ? '' : 's' %>
+          <% } %>
+          <% if (selectedCategory) { %>
+            in <%= categories.find(c => c._id.toString() === selectedCategory)?.name || 'selected category' %>
+          <% } %>
+          <% if (selectedLocation) { %>
+            near "<%= selectedLocation %>"
+          <% } %>
+        </p>
+      </div>
+    <% } %>
+
+    <div class="artisans-grid">
+      <% if (artisans && artisans.length > 0) { %>
+        <% artisans.forEach(artisan => { %>
+          <div class="artisan-card">
+            <div class="artisan-header">
+              <div class="artisan-image">
+                <img src="<%= artisan.image ? `/uploads/${artisan.image}` : '/images/default-artisan.png' %>" alt="<%= artisan.businessName %>">
+              </div>
+              <% if (artisan.isVerified) { %>
+                <div class="artisan-badge verified">
+                  <i class="fas fa-check-circle"></i>
+                </div>
+              <% } %>
+            </div>
+            <div class="artisan-body">
+              <h3 class="artisan-name"><%= artisan.businessName %></h3>
+              <div class="artisan-category">
+                <i class="fas fa-th-list"></i>
+                <span><%= artisan.category ? artisan.category.name : 'Uncategorized' %></span>
+              </div>
+              <div class="artisan-location">
+                <i class="fas fa-map-marker-alt"></i>
+                <span>
+                  <%= artisan.city %>
+                  <% if (artisan.state) { %>, <%= artisan.state %><% } %>
+                  <% if (artisan.country) { %>, <%= artisan.country %><% } %>
+                </span>
+              </div>
+              <% if (artisan.rating) { %>
+                <div class="artisan-rating">
+                  <% for (let i = 1; i <= 5; i++) { %>
+                    <i class="fas fa-star <%= i <= artisan.rating ? 'filled' : '' %>"></i>
+                  <% } %>
+                  <% if (artisan.reviewCount) { %>
+                    <span class="rating-count">(<%= artisan.reviewCount %>)</span>
+                  <% } %>
+                </div>
+              <% } %>
+              <p class="artisan-description">
+                <%= artisan.description ? (artisan.description.length > 100 ? artisan.description.substring(0, 100) + '...' : artisan.description) : 'No description available.' %>
+              </p>
+            </div>
+            <div class="artisan-footer">
+              <a href="/artisans/<%= artisan.slug %>" class="btn btn-primary">View Profile</a>
+              <a href="/artisans/<%= artisan.slug %>/contact" class="btn btn-outline-primary">Contact</a>
+            </div>
+          </div>
+        <% }) %>
+      <% } else { %>
+        <div class="empty-state">
+          <div class="empty-state-icon">
+            <i class="fas fa-search"></i>
+          </div>
+          <h3>No Results Found</h3>
+          <p>Try adjusting your search criteria or browse our categories instead.</p>
+          <a href="/customers/categories" class="btn btn-primary mt-3">Browse Categories</a>
+        </div>
+      <% } %>
+    </div>
+  </div>
+</div> 

@@ -1,0 +1,180 @@
+<section class="auth-section section">
+  <div class="container">
+    <div class="form-container">
+      <div class="form-header">
+        <h2 class="form-title">Create an Account</h2>
+        <p class="form-subtitle">Join BizPro and connect with artisans or register your services</p>
+      </div>
+      
+      <% if (locals.errors && errors.length) { %>
+        <div class="alert alert-danger">
+          <% errors.forEach(error => { %>
+            <p><%= error.msg %></p>
+          <% }) %>
+        </div>
+      <% } %>
+      
+      <form action="/register" method="POST" class="auth-form needs-validation">
+        <div class="form-group">
+          <label for="name" class="form-label">Full Name</label>
+          <input
+            type="text"
+            id="name"
+            name="name"
+            class="form-control"
+            placeholder="Enter your full name"
+            value="<%= locals.name || '' %>"
+            required
+          >
+        </div>
+        
+        <div class="form-group">
+          <label for="email" class="form-label">Email Address</label>
+          <input
+            type="email"
+            id="email"
+            name="email"
+            class="form-control"
+            placeholder="Enter your email"
+            value="<%= locals.email || '' %>"
+            required
+          >
+        </div>
+        
+        <div class="form-group">
+          <label for="password" class="form-label">Password</label>
+          <input
+            type="password"
+            id="password"
+            name="password"
+            class="form-control"
+            placeholder="Create a password"
+            required
+            minlength="6"
+          >
+          <small class="form-text">Password must be at least 6 characters</small>
+        </div>
+        
+        <div class="form-group">
+          <label for="password2" class="form-label">Confirm Password</label>
+          <input
+            type="password"
+            id="password2"
+            name="password2"
+            class="form-control"
+            placeholder="Confirm your password"
+            required
+            minlength="6"
+          >
+        </div>
+        
+        <div class="form-group form-check">
+          <input type="checkbox" class="form-check-input" id="terms" name="terms" required>
+          <label class="form-check-label" for="terms">
+            I agree to the <a href="#">Terms of Service</a> and <a href="#">Privacy Policy</a>
+          </label>
+        </div>
+        
+        <div class="form-group">
+          <button type="submit" class="btn btn-primary btn-block">Register</button>
+        </div>
+      </form>
+      
+      <div class="auth-footer">
+        <p>Already have an account? <a href="/login">Login</a></p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .auth-section {
+    display: flex;
+    align-items: center;
+    min-height: calc(100vh - 200px);
+    background-color: var(--bg-light);
+    padding: 60px 0;
+  }
+  
+  .form-container {
+    max-width: 500px;
+    margin: 0 auto;
+    padding: 40px;
+    background-color: white;
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+  }
+  
+  .form-header {
+    text-align: center;
+    margin-bottom: 30px;
+  }
+  
+  .form-title {
+    font-size: 24px;
+    font-weight: 700;
+    margin-bottom: 10px;
+    color: var(--bg-dark);
+  }
+  
+  .form-subtitle {
+    color: var(--text-light);
+  }
+  
+  .auth-form {
+    margin-bottom: 20px;
+  }
+  
+  .form-check {
+    display: flex;
+    align-items: flex-start;
+  }
+  
+  .form-check-input {
+    margin-right: 10px;
+    margin-top: 5px;
+  }
+  
+  .btn-block {
+    width: 100%;
+    padding: 12px;
+    margin-top: 20px;
+  }
+  
+  .auth-footer {
+    text-align: center;
+    margin-top: 20px;
+    padding-top: 20px;
+    border-top: 1px solid var(--border-color);
+  }
+</style>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const form = document.querySelector('.auth-form');
+    const password = document.getElementById('password');
+    const password2 = document.getElementById('password2');
+    
+    form.addEventListener('submit', e => {
+      if (password.value !== password2.value) {
+        e.preventDefault();
+        
+        // Create error message
+        const errorDiv = document.createElement('div');
+        errorDiv.className = 'alert alert-danger';
+        errorDiv.innerHTML = '<p>Passwords do not match</p>';
+        
+        // Add to DOM before form
+        form.parentNode.insertBefore(errorDiv, form);
+        
+        // Scroll to error
+        errorDiv.scrollIntoView();
+        
+        // Remove after 3 seconds
+        setTimeout(() => {
+          errorDiv.remove();
+        }, 3000);
+      }
+    });
+  });
+</script> 

@@ -1,0 +1,80 @@
+<%- contentFor('body') %>
+<div class="container my-5">
+  <div class="row">
+    <div class="col-lg-8 mx-auto">
+      <div class="card shadow-sm border-0">
+        <div class="card-body p-5">
+          <h1 class="display-4 mb-4">Contact Us</h1>
+          
+          <p class="lead mb-4">Have questions or suggestions? We'd love to hear from you!</p>
+          
+          <!-- Flash Messages -->
+          <% if (locals.success_msg && success_msg.length > 0) { %>
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+              <%= success_msg %>
+              <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+          <% } %>
+          
+          <% if (locals.error_msg && error_msg.length > 0) { %>
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+              <%= error_msg %>
+              <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+          <% } %>
+          
+          <form action="/contact" method="POST">
+            <div class="row">
+              <div class="col-md-6 mb-3">
+                <label for="name" class="form-label">Your Name</label>
+                <input type="text" class="form-control" id="name" name="name" required>
+              </div>
+              <div class="col-md-6 mb-3">
+                <label for="email" class="form-label">Email Address</label>
+                <input type="email" class="form-control" id="email" name="email" required>
+              </div>
+            </div>
+            
+            <div class="mb-3">
+              <label for="subject" class="form-label">Subject</label>
+              <input type="text" class="form-control" id="subject" name="subject" required>
+            </div>
+            
+            <div class="mb-3">
+              <label for="message" class="form-label">Message</label>
+              <textarea class="form-control" id="message" name="message" rows="5" required></textarea>
+            </div>
+            
+            <button type="submit" class="btn btn-primary">Send Message</button>
+          </form>
+          
+          <hr class="my-4">
+          
+          <div class="row mt-4">
+            <div class="col-md-4 mb-3 mb-md-0">
+              <div class="text-center">
+                <i class="fas fa-map-marker-alt fa-2x text-primary mb-3"></i>
+                <h5>Address</h5>
+                <p class="mb-0">123 BizPro Street<br>Artisan District, BP 12345</p>
+              </div>
+            </div>
+            <div class="col-md-4 mb-3 mb-md-0">
+              <div class="text-center">
+                <i class="fas fa-envelope fa-2x text-primary mb-3"></i>
+                <h5>Email</h5>
+                <p class="mb-0">info@bizpro.com<br>support@bizpro.com</p>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="text-center">
+                <i class="fas fa-phone fa-2x text-primary mb-3"></i>
+                <h5>Phone</h5>
+                <p class="mb-0">+1 (555) 123-4567<br>+1 (555) 987-6543</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div> 
