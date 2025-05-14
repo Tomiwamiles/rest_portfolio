@@ -1,0 +1,100 @@
+<section class="error-section">
+  <div class="container">
+    <div class="error-container">
+      <div class="error-image">
+        <img src="/images/500.svg" alt="Server Error" onerror="this.src='/images/500-placeholder.png'; this.onerror=null;">
+      </div>
+      <div class="error-content">
+        <h1 class="error-title">500 - Server Error</h1>
+        <p class="error-message">Oops! Something went wrong on our servers. We're working to fix the issue.</p>
+        <% if (locals.error && Object.keys(error).length > 0) { %>
+          <div class="error-details">
+            <h3>Error Details:</h3>
+            <pre><%= JSON.stringify(error, null, 2) %></pre>
+          </div>
+        <% } %>
+        <div class="error-actions">
+          <a href="/" class="btn btn-primary">Back to Home</a>
+          <a href="/contact" class="btn btn-outline">Contact Support</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .error-section {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: calc(100vh - 200px);
+    padding: 60px 0;
+  }
+  
+  .error-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    max-width: 800px;
+    margin: 0 auto;
+  }
+  
+  .error-image {
+    max-width: 400px;
+    margin-bottom: 30px;
+  }
+  
+  .error-image img {
+    width: 100%;
+    height: auto;
+  }
+  
+  .error-title {
+    font-size: 36px;
+    font-weight: 700;
+    margin-bottom: 15px;
+    color: var(--bg-dark);
+  }
+  
+  .error-message {
+    font-size: 18px;
+    color: var(--text-light);
+    margin-bottom: 30px;
+  }
+  
+  .error-actions {
+    display: flex;
+    gap: 15px;
+  }
+  
+  .error-details {
+    background-color: #f8f9fa;
+    padding: 20px;
+    border-radius: var(--radius);
+    margin-bottom: 30px;
+    text-align: left;
+    max-width: 100%;
+    overflow-x: auto;
+  }
+  
+  .error-details pre {
+    margin: 0;
+    font-size: 14px;
+    white-space: pre-wrap;
+  }
+  
+  @media (max-width: 768px) {
+    .error-title {
+      font-size: 28px;
+    }
+    
+    .error-message {
+      font-size: 16px;
+    }
+    
+    .error-actions {
+      flex-direction: column;
+    }
+  }
+</style> 

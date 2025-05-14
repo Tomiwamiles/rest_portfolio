@@ -1,0 +1,291 @@
+<section class="section">
+  <div class="container">
+    <div class="section-header">
+      <h2 class="section-title">Register as an Artisan</h2>
+      <p class="section-description">Showcase your skills and services to potential customers</p>
+    </div>
+    
+    <div class="form-container artisan-form-container">
+      <% if (locals.errors && errors.length) { %>
+        <div class="alert alert-danger">
+          <% errors.forEach(error => { %>
+            <p><%= error.msg %></p>
+          <% }) %>
+          <button class="alert-close">&times;</button>
+        </div>
+      <% } %>
+      
+      <form action="/artisans" method="POST" class="artisan-form needs-validation" enctype="multipart/form-data">
+        <!-- Basic Information -->
+        <div class="form-section">
+          <h3 class="form-section-title">Basic Information</h3>
+          
+          <div class="form-group">
+            <label for="name" class="form-label">Business/Service Name <span class="required">*</span></label>
+            <input 
+              type="text" 
+              id="name" 
+              name="name" 
+              class="form-control" 
+              placeholder="Enter your business or service name"
+              required
+            >
+          </div>
+          
+          <div class="form-group">
+            <label for="description" class="form-label">Description <span class="required">*</span></label>
+            <textarea 
+              id="description" 
+              name="description" 
+              class="form-control" 
+              rows="4" 
+              placeholder="Describe your services, skills, and experience"
+              maxlength="500" 
+              required
+            ></textarea>
+            <small class="form-text">Maximum 500 characters</small>
+          </div>
+          
+          <div class="form-group">
+            <label for="category" class="form-label">Category <span class="required">*</span></label>
+            <select id="category" name="category" class="form-control" required>
+              <option value="" disabled selected>Select a category</option>
+              <% if (categories && categories.length) { %>
+                <% categories.forEach(category => { %>
+                  <option value="<%= category._id %>"><%= category.name %></option>
+                <% }) %>
+              <% } %>
+            </select>
+          </div>
+          
+          <div class="form-group">
+            <label for="image" class="form-label">Profile Image</label>
+            <div class="custom-file">
+              <input 
+                type="file" 
+                id="image" 
+                name="image" 
+                class="custom-file-input" 
+                accept="image/*"
+              >
+              <label class="custom-file-label" for="image">Choose file</label>
+            </div>
+            <small class="form-text">Maximum size: 1MB. Recommended: 500x500px</small>
+            
+            <div class="image-preview mt-2"></div>
+          </div>
+        </div>
+        
+        <!-- Contact Information -->
+        <div class="form-section">
+          <h3 class="form-section-title">Contact Information</h3>
+          
+          <div class="form-group">
+            <label for="phone" class="form-label">Phone Number <span class="required">*</span></label>
+            <input 
+              type="tel" 
+              id="phone" 
+              name="phone" 
+              class="form-control" 
+              placeholder="Enter your phone number"
+              required
+            >
+          </div>
+          
+          <div class="form-group">
+            <label for="email" class="form-label">Email Address</label>
+            <input 
+              type="email" 
+              id="email" 
+              name="email" 
+              class="form-control" 
+              placeholder="Enter your email address"
+              value="<%= locals.user ? user.email : '' %>"
+            >
+          </div>
+        </div>
+        
+        <!-- Location Information -->
+        <div class="form-section">
+          <h3 class="form-section-title">Location Information</h3>
+          
+          <div class="form-group">
+            <label for="address" class="form-label">Address <span class="required">*</span></label>
+            <input 
+              type="text" 
+              id="address" 
+              name="address" 
+              class="form-control" 
+              placeholder="Enter your address"
+              required
+            >
+          </div>
+          
+          <div class="form-row">
+            <div class="form-group col-md-6">
+              <label for="city" class="form-label">City <span class="required">*</span></label>
+              <input 
+                type="text" 
+                id="city" 
+                name="city" 
+                class="form-control" 
+                placeholder="Enter your city"
+                required
+              >
+            </div>
+            
+            <div class="form-group col-md-6">
+              <label for="state" class="form-label">State/Province</label>
+              <input 
+                type="text" 
+                id="state" 
+                name="state" 
+                class="form-control" 
+                placeholder="Enter your state/province"
+              >
+            </div>
+          </div>
+          
+          <div class="form-group">
+            <label for="country" class="form-label">Country <span class="required">*</span></label>
+            <input 
+              type="text" 
+              id="country" 
+              name="country" 
+              class="form-control" 
+              placeholder="Enter your country"
+              required
+            >
+          </div>
+        </div>
+        
+        <!-- Terms and Conditions -->
+        <div class="form-section">
+          <div class="form-group form-check">
+            <input type="checkbox" class="form-check-input" id="terms" required>
+            <label class="form-check-label" for="terms">
+              I agree to the <a href="#">Terms of Service</a> and I confirm that the information provided is accurate
+            </label>
+          </div>
+        </div>
+        
+        <div class="form-actions">
+          <button type="reset" class="btn btn-outline">Reset</button>
+          <button type="submit" class="btn btn-primary">Register as Artisan</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</section>
+
+<style>
+  .artisan-form-container {
+    max-width: 800px;
+  }
+  
+  .form-section {
+    margin-bottom: 30px;
+    padding-bottom: 30px;
+    border-bottom: 1px solid var(--border-color);
+  }
+  
+  .form-section:last-child {
+    border-bottom: none;
+    padding-bottom: 0;
+  }
+  
+  .form-section-title {
+    font-size: 20px;
+    font-weight: 600;
+    margin-bottom: 20px;
+    color: var(--bg-dark);
+  }
+  
+  .form-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+  }
+  
+  .form-row .form-group {
+    flex: 1 1 200px;
+  }
+  
+  .required {
+    color: var(--danger-color);
+  }
+  
+  .custom-file {
+    position: relative;
+    display: block;
+    width: 100%;
+  }
+  
+  .custom-file-input {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    cursor: pointer;
+    z-index: 2;
+  }
+  
+  .custom-file-label {
+    display: block;
+    width: 100%;
+    padding: 10px 15px;
+    background-color: white;
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius);
+    font-weight: 400;
+    cursor: pointer;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  
+  .image-preview {
+    height: 200px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px dashed var(--border-color);
+    border-radius: var(--radius);
+    margin-top: 10px;
+    overflow: hidden;
+  }
+  
+  .img-preview {
+    max-height: 100%;
+    max-width: 100%;
+    object-fit: contain;
+  }
+  
+  .form-actions {
+    display: flex;
+    gap: 15px;
+    justify-content: flex-end;
+    margin-top: 20px;
+  }
+  
+  .mt-2 {
+    margin-top: 10px;
+  }
+  
+  @media (max-width: 768px) {
+    .form-row {
+      flex-direction: column;
+      gap: 0;
+    }
+    
+    .form-actions {
+      flex-direction: column;
+    }
+    
+    .form-actions button {
+      width: 100%;
+    }
+  }
+</style> 

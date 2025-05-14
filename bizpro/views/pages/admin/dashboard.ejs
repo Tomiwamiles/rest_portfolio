@@ -1,0 +1,167 @@
+<%- contentFor('body') %>
+<div class="container my-5">
+  <div class="row">
+    <!-- Sidebar -->
+    <div class="col-lg-3">
+      <div class="card">
+        <div class="card-body">
+          <h5 class="card-title mb-4">Admin Menu</h5>
+          <div class="list-group">
+            <a href="/admin/dashboard" class="list-group-item list-group-item-action active">
+              <i class="fas fa-tachometer-alt me-2"></i> Dashboard
+            </a>
+            <a href="/admin/artisans" class="list-group-item list-group-item-action">
+              <i class="fas fa-users me-2"></i> Artisans
+            </a>
+            <a href="/admin/categories" class="list-group-item list-group-item-action">
+              <i class="fas fa-th-list me-2"></i> Categories
+            </a>
+            <a href="/admin/users" class="list-group-item list-group-item-action">
+              <i class="fas fa-user-friends me-2"></i> Users
+            </a>
+            <a href="/admin/settings" class="list-group-item list-group-item-action">
+              <i class="fas fa-cog me-2"></i> Settings
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="col-lg-9">
+      <!-- Welcome Card -->
+      <div class="card mb-4">
+        <div class="card-body">
+          <h4 class="card-title">Welcome, <%= locals.user ? locals.user.name : 'Admin' %>!</h4>
+          <p class="card-text">Here's an overview of your platform's performance.</p>
+        </div>
+      </div>
+
+      <!-- Stats Cards -->
+      <div class="row mb-4">
+        <div class="col-md-3">
+          <div class="card bg-primary text-white">
+            <div class="card-body">
+              <h6 class="card-title">Total Artisans</h6>
+              <h2 class="mb-0"><%= typeof stats !== 'undefined' ? stats.artisansCount : '0' %></h2>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="card bg-success text-white">
+            <div class="card-body">
+              <h6 class="card-title">Active Users</h6>
+              <h2 class="mb-0"><%= typeof stats !== 'undefined' ? stats.usersCount : '0' %></h2>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="card bg-info text-white">
+            <div class="card-body">
+              <h6 class="card-title">Categories</h6>
+              <h2 class="mb-0"><%= typeof stats !== 'undefined' ? stats.categoriesCount : '0' %></h2>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="card bg-warning text-white">
+            <div class="card-body">
+              <h6 class="card-title">Pending Verifications</h6>
+              <h2 class="mb-0"><%= typeof stats !== 'undefined' ? stats.pendingVerifications : '0' %></h2>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Recent Activity -->
+      <div class="card mb-4">
+        <div class="card-header">
+          <h5 class="card-title mb-0">Recent Activity</h5>
+        </div>
+        <div class="card-body">
+          <% if (typeof recentActivity !== 'undefined' && recentActivity.length > 0) { %>
+            <div class="list-group">
+              <% recentActivity.forEach(activity => { %>
+                <div class="list-group-item">
+                  <div class="d-flex w-100 justify-content-between">
+                    <h6 class="mb-1"><%= activity.title %></h6>
+                    <small><%= activity.time %></small>
+                  </div>
+                  <p class="mb-1"><%= activity.description %></p>
+                </div>
+              <% }) %>
+            </div>
+          <% } else { %>
+            <p class="text-muted mb-0">No recent activity to display.</p>
+          <% } %>
+        </div>
+      </div>
+
+      <!-- Quick Actions -->
+      <div class="card">
+        <div class="card-header">
+          <h5 class="card-title mb-0">Quick Actions</h5>
+        </div>
+        <div class="card-body">
+          <div class="row g-3">
+            <div class="col-md-6">
+              <a href="/admin/artisans/new" class="btn btn-primary w-100">
+                <i class="fas fa-plus me-2"></i> Add New Artisan
+              </a>
+            </div>
+            <div class="col-md-6">
+              <a href="/admin/categories/new" class="btn btn-success w-100">
+                <i class="fas fa-plus me-2"></i> Add New Category
+              </a>
+            </div>
+            <div class="col-md-6">
+              <a href="/admin/verifications" class="btn btn-warning w-100">
+                <i class="fas fa-check-circle me-2"></i> Review Verifications
+              </a>
+            </div>
+            <div class="col-md-6">
+              <a href="/admin/reports" class="btn btn-info w-100">
+                <i class="fas fa-chart-bar me-2"></i> View Reports
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+.card {
+  border: none;
+  box-shadow: 0 0 10px rgba(0,0,0,0.1);
+  margin-bottom: 1rem;
+}
+
+.list-group-item {
+  border: none;
+  border-bottom: 1px solid #eee;
+}
+
+.list-group-item:last-child {
+  border-bottom: none;
+}
+
+.bg-primary {
+  background: var(--primary-color) !important;
+}
+
+.card-header {
+  background: none;
+  border-bottom: 1px solid #eee;
+  padding: 1rem;
+}
+
+.btn {
+  padding: 0.75rem 1rem;
+}
+
+.btn i {
+  font-size: 0.9rem;
+}
+</style> 

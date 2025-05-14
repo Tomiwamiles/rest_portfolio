@@ -1,0 +1,52 @@
+<%- contentFor('title') %>Artisans
+<%- contentFor('body') %>
+
+<div class="container my-5">
+  <div class="row">
+    <div class="col-12">
+      <h1 class="mb-4">Our Artisans</h1>
+      
+      <% if (typeof artisans !== 'undefined' && artisans.length > 0) { %>
+        <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+          <% artisans.forEach(artisan => { %>
+            <div class="col">
+              <div class="card h-100 shadow-sm hover-card">
+                <div class="position-relative">
+                  <img 
+                    src="<%= artisan.profileImage && artisan.profileImage.trim() ? `/uploads/${artisan.profileImage}` : '/images/default.jpg' %>" 
+                    class="card-img-top" 
+                    alt="<%= artisan.businessName || artisan.name %>" 
+                    style="height: 200px; object-fit: cover;"
+                    onerror="this.onerror=null; console.error('Failed to load image:', this.src); this.src='/images/default.jpg';">
+                  <% if (artisan.category) { %>
+                    <span class="badge bg-primary position-absolute top-0 end-0 m-2"><%= artisan.category.name %></span>
+                  <% } %>
+                  <% if (artisan.isVerified) { %>
+                    <span class="badge bg-success position-absolute top-0 start-0 m-2">
+                      <i class="fas fa-check-circle me-1"></i>Verified
+                    </span>
+                  <% } %>
+                </div>
+                <div class="card-body">
+                  <h5 class="card-title"><%= artisan.businessName || artisan.name %></h5>
+                  <p class="card-text text-truncate"><%= artisan.description %></p>
+                  <div class="d-flex justify-content-between align-items-center">
+                    <a href="/artisans/slug/<%= artisan.slug %>" class="btn btn-sm btn-outline-primary">View Profile</a>
+                    <small class="text-muted">
+                      <i class="fas fa-map-marker-alt me-1"></i>
+                      <%= artisan.city %><%= artisan.state ? `, ${artisan.state}` : '' %>
+                    </small>
+                  </div>
+                </div>
+              </div>
+            </div>
+          <% }); %>
+        </div>
+      <% } else { %>
+        <div class="alert alert-info">
+          <p class="mb-0">No artisans found. Check back later!</p>
+        </div>
+      <% } %>
+    </div>
+  </div>
+</div> 
